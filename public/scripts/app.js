@@ -8,7 +8,6 @@
 var app = {
   title: 'App title',
   subtitle: 'It even has a subtitle!',
-  // options: ['option 1', 'option 2', 'option 3']
   options: []
 };
 
