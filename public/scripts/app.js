@@ -26,10 +26,7 @@ var onFormSubmit = function onFormSubmit(e) {
 };
 
 var onMakeDecision = function onMakeDecision() {
-  // generate a random number among the array numbers so you can pull the item out by its index
   var randomNum = Math.floor(Math.random() * app.options.length);
-  // console.log(randomNum)
-  // console.log(app.options[randomNum])
   var option = app.options[randomNum];
   console.log(option);
 };

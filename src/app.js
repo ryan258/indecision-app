@@ -24,10 +24,7 @@ const onFormSubmit = (e) => {
 }
 
 const onMakeDecision = () => {
-  // generate a random number among the array numbers so you can pull the item out by its index
   const randomNum = Math.floor(Math.random() * app.options.length)
-  // console.log(randomNum)
-  // console.log(app.options[randomNum])
   const option = app.options[randomNum]
   console.log(option)
 }
@@ -48,8 +45,6 @@ const renderIndecisionApp = () => {
       {app.subtitle && <p>{app.subtitle}</p>}
       <p>{app.options.length > 0 ? 'Here are your options' : 'No options'}</p>
 
-      {/* {app.options.length > 0 ? <button onClick={onMakeDecision}>What should I do?</button> : ''} */}
-      {/* JSX actually works really well with conditional rendering */}
       <button disabled={app.options.length === 0} onClick={onMakeDecision}>
         What should I do?
       </button>
