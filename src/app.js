@@ -33,6 +33,8 @@ const onRemoveAll = () => {
 
 const appRoot = document.getElementById('app')
 
+const numbers = [55, 101, 1000]
+
 const renderIndecisionApp = () => {
   const template = (
     <div>
@@ -43,10 +45,33 @@ const renderIndecisionApp = () => {
 
       {app.options.length > 0 ? <button onClick={onRemoveAll}>Remove All</button> : ''}
 
+      {/* JSX can handle arrays - when JSX sees an array it will render each item side-by-side */}
+      {/* {[99, 98, 97, 'beep', null, undefined, true]} */}
+      {/* ^^ will become {99}{98}{97}{'beep'} ...bools, undefined and null don't show up - JSX will take the array and render out the individual pieces */}
+
+      {/* we can also render JSX inside JSX */}
+      {/* {<p>beep</p>} */}
+      {/* which means we can also render an array of JSX in JSX */}
+
+      {/* when we're using JSX in arrays we need to have a unique key prop - it allows JSX to work its optimization magic */}
+      {/* {
+        [
+          <p key="1">zap</p>,
+          <p key="2">zip</p>,
+          <p key="3">zoom</p>
+        ]
+      } */}
+
+      {/* usually we'll have an array of other JSX that we want to render to the screen */}
+
+      {/* {numbers.map((num) => (
+        <p key={num}>Number: {num}</p>
+      ))} */}
+
       <ol>
-        <li>one...</li>
-        <li>two</li>
-        <li>three</li>
+        {app.options.map((option) => (
+          <li key={option}>{option}</li>
+        ))}
       </ol>
       {/* we're going to watch for the whole form to submit */}
       <form onSubmit={onFormSubmit}>
