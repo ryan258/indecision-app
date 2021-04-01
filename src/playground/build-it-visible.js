@@ -1,3 +1,5 @@
+// babel src/app.js --out-file=public/scripts/app.js --presets=env,react --watch
+
 const data = {
   title: 'Visibility Toggle',
   showDetails: false
