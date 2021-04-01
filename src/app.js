@@ -23,6 +23,15 @@ const onFormSubmit = (e) => {
   console.log(app.options)
 }
 
+const onMakeDecision = () => {
+  // generate a random number among the array numbers so you can pull the item out by its index
+  const randomNum = Math.floor(Math.random() * app.options.length)
+  // console.log(randomNum)
+  // console.log(app.options[randomNum])
+  const option = app.options[randomNum]
+  console.log(option)
+}
+
 const onRemoveAll = () => {
   if (app.options.length > 0) {
     app.options = []
@@ -32,15 +41,18 @@ const onRemoveAll = () => {
 
 const appRoot = document.getElementById('app')
 
-const numbers = [55, 101, 1000]
-
 const renderIndecisionApp = () => {
   const template = (
     <div>
       <h1>{app.title}</h1>
       {app.subtitle && <p>{app.subtitle}</p>}
       <p>{app.options.length > 0 ? 'Here are your options' : 'No options'}</p>
-      <p>{app.options.length}</p>
+
+      {/* {app.options.length > 0 ? <button onClick={onMakeDecision}>What should I do?</button> : ''} */}
+      {/* JSX actually works really well with conditional rendering */}
+      <button disabled={app.options.length === 0} onClick={onMakeDecision}>
+        What should I do?
+      </button>
 
       {app.options.length > 0 ? <button onClick={onRemoveAll}>Remove All</button> : ''}
 

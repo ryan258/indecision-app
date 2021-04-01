@@ -25,6 +25,15 @@ var onFormSubmit = function onFormSubmit(e) {
   console.log(app.options);
 };
 
+var onMakeDecision = function onMakeDecision() {
+  // generate a random number among the array numbers so you can pull the item out by its index
+  var randomNum = Math.floor(Math.random() * app.options.length);
+  // console.log(randomNum)
+  // console.log(app.options[randomNum])
+  var option = app.options[randomNum];
+  console.log(option);
+};
+
 var onRemoveAll = function onRemoveAll() {
   if (app.options.length > 0) {
     app.options = [];
@@ -33,8 +42,6 @@ var onRemoveAll = function onRemoveAll() {
 };
 
 var appRoot = document.getElementById('app');
-
-var numbers = [55, 101, 1000];
 
 var renderIndecisionApp = function renderIndecisionApp() {
   var template = React.createElement(
@@ -56,9 +63,9 @@ var renderIndecisionApp = function renderIndecisionApp() {
       app.options.length > 0 ? 'Here are your options' : 'No options'
     ),
     React.createElement(
-      'p',
-      null,
-      app.options.length
+      'button',
+      { disabled: app.options.length === 0, onClick: onMakeDecision },
+      'What should I do?'
     ),
     app.options.length > 0 ? React.createElement(
       'button',
