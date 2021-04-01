@@ -8,6 +8,8 @@ var app = {
   options: ['option 1', 'option 2', 'option 3']
 
   // jsx - javascript xml
+  // jsx does not have built in data binding - ie we can change the value of a variable but that won't update the dom
+  // - so when things change we rerender it to the screen
 };var template = React.createElement(
   'div',
   null,
@@ -47,35 +49,60 @@ var app = {
   )
 );
 
-// Object
-var user = {
-  name: 'Ike',
-  age: false,
-  location: 'North Pole'
+var count = 0;
+var addOne = function addOne() {
+  count++;
+  // 2) call our render function
+  renderCounterApp();
 };
 
-var templateTwo = React.createElement(
-  'div',
-  null,
-  React.createElement(
-    'h1',
-    null,
-    user.name || 'Anonymous'
-  ),
-  user.age && user.age >= 18 && React.createElement(
-    'p',
-    null,
-    'Age: ',
-    user.age
-  ),
-  React.createElement(
-    'p',
-    null,
-    'Location: ',
-    user.location
-  )
-);
+var minusOne = function minusOne() {
+  count--;
+  renderCounterApp();
+};
+
+var reset = function reset() {
+  count = 0;
+  renderCounterApp();
+};
+
+// console.log(templateTwo)
 
 var appRoot = document.getElementById('app');
 
-ReactDOM.render(template, appRoot);
+var renderCounterApp = function renderCounterApp() {
+  var templateTwo = React.createElement(
+    'div',
+    null,
+    React.createElement(
+      'h1',
+      null,
+      'Count: ',
+      count
+    ),
+    React.createElement(
+      'button',
+      { onClick: addOne },
+      '+1'
+    ),
+    React.createElement(
+      'button',
+      { onClick: reset },
+      'reset'
+    ),
+    React.createElement(
+      'button',
+      { onClick: minusOne },
+      '-1'
+    )
+  );
+
+  ReactDOM.render(templateTwo, appRoot);
+};
+
+// 1) first we have to kick off the original render so our mini app initially renders
+//!React only rerenders the part that changed
+//!- so when a single piece of our application state changes, we can rerender the app/updating it w/o slowing down the user bc the virtualdom run behind the scenes will work its magic
+//!-- the virtual dom algo will calculate if any changes need to be made, then it'll figure the minimal amount of changes, much faster
+// everything is just an object the represents the JSX tree and we run algos to compare the 2
+renderCounterApp();
