@@ -3,6 +3,20 @@
 // Component is a class itself that gives us the features of React
 // react components require that a special method -> render
 // - and this returns all the JSX
+
+class IndecisionApp extends React.Component {
+  render() {
+    return (
+      <div>
+        <Header />
+        <Action />
+        <Options />
+        <AddOption />
+      </div>
+    )
+  }
+}
+
 class Header extends React.Component {
   render() {
     return (
@@ -31,8 +45,17 @@ class Options extends React.Component {
         <li>options</li>
         <li>component</li>
         <li>here!</li>
+        <Option />
+        <Option />
+        <Option />
       </ul>
     )
+  }
+}
+
+class Option extends React.Component {
+  render() {
+    return <li>Option component</li>
   }
 }
 
@@ -47,14 +70,5 @@ class AddOption extends React.Component {
   }
 }
 
-const jsx = (
-  <div>
-    <Header />
-    <Action />
-    <Options />
-    <AddOption />
-  </div>
-)
-
 // to render to the screen we need to use ReactDOM
-ReactDOM.render(jsx, document.getElementById('app'))
+ReactDOM.render(<IndecisionApp />, document.getElementById('app'))
