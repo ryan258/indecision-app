@@ -1,98 +1,59 @@
 'use strict';
 
-// babel src/app.js --out-file=public/scripts/app.js --presets=env,react --watch
-// end result @ indecision.mead.io
-// - dom elements - https://reactjs.org/docs/dom-elements.html
-// - synthetic events - https://reactjs.org/docs/events.html
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var app = {
-  title: 'App title',
-  subtitle: 'It even has a subtitle!',
-  options: []
-};
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var onFormSubmit = function onFormSubmit(e) {
-  e.preventDefault();
-  // console.log('form submitted')
-  // elements contains a list of all the elements and are index by their name attribute
-  var option = e.target.elements.option.value;
+// babel src/playground/es6-classes-1.js --out-file=public/scripts/app.js --presets=env,react --watch
 
-  if (option) {
-    app.options.push(option);
-    e.target.elements.option.value = ''; // clear the input field
-    renderIndecisionApp();
+// the goal of classes is to reuse code - it's like a blue print that we can make instances from
+
+var Person = function () {
+  // where we define our class
+  // vv constructor function is the function that gets called when you create a new instance and handles all the arguments passed in to that new instance
+  //    Anon is a default param value if no name is passed when obj is instanciated
+  function Person() {
+    var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'Anon';
+    var age = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+    _classCallCheck(this, Person);
+
+    // regular function body
+    // console.log('test')
+    this.name = name; // 'this' refers to the class instance
+    this.age = age;
   }
-  console.log(app.options);
-};
 
-var onMakeDecision = function onMakeDecision() {
-  var randomNum = Math.floor(Math.random() * app.options.length);
-  var option = app.options[randomNum];
-  console.log(option);
-};
+  // define another method
 
-var onRemoveAll = function onRemoveAll() {
-  if (app.options.length > 0) {
-    app.options = [];
-    renderIndecisionApp();
-  }
-};
 
-var appRoot = document.getElementById('app');
+  _createClass(Person, [{
+    key: 'getGreeting',
+    value: function getGreeting() {
+      // return 'Hi!'
+      // - in methods we have access through 'this'
+      // return 'Hi, I am ' + this.name + '!'
+      return 'Hi, I\'m ' + this.name + '!';
+    }
+  }, {
+    key: 'getDescription',
+    value: function getDescription() {
+      return this.name + ' is ' + this.age + ' year(s) old.';
+    }
+  }]);
 
-var renderIndecisionApp = function renderIndecisionApp() {
-  var template = React.createElement(
-    'div',
-    null,
-    React.createElement(
-      'h1',
-      null,
-      app.title
-    ),
-    app.subtitle && React.createElement(
-      'p',
-      null,
-      app.subtitle
-    ),
-    React.createElement(
-      'p',
-      null,
-      app.options.length > 0 ? 'Here are your options' : 'No options'
-    ),
-    React.createElement(
-      'button',
-      { disabled: app.options.length === 0, onClick: onMakeDecision },
-      'What should I do?'
-    ),
-    app.options.length > 0 ? React.createElement(
-      'button',
-      { onClick: onRemoveAll },
-      'Remove All'
-    ) : '',
-    React.createElement(
-      'ol',
-      null,
-      app.options.map(function (option) {
-        return React.createElement(
-          'li',
-          { key: option },
-          option
-        );
-      })
-    ),
-    React.createElement(
-      'form',
-      { onSubmit: onFormSubmit },
-      React.createElement('input', { type: 'text', name: 'option' }),
-      React.createElement(
-        'button',
-        null,
-        'Add Option'
-      )
-    )
-  );
+  return Person;
+}();
 
-  ReactDOM.render(template, appRoot);
-};
+// create a new instance
 
-renderIndecisionApp();
+
+var me = new Person('Ryan Johnson', 37);
+console.log(me);
+console.log(me.getGreeting());
+console.log(me.getDescription());
+
+var mrAnon = new Person();
+console.log(mrAnon);
+console.log(mrAnon.getGreeting());
+console.log(mrAnon.getDescription());
