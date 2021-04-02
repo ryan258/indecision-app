@@ -49,13 +49,28 @@ class Action extends React.Component {
 }
 
 class Options extends React.Component {
+  // override this through the constructor function
+  // - props in the constructor function works the same way as it does in the render method - refers to the same thing, the constructor function just gets it passed in
+  constructor(props) {
+    // so we don't break anything we have to call super(props)
+    super(props) // so we have access to this.props
+    // now we can add on behavior
+    // like bind handleRemoveAll
+    this.handleRemoveAll = this.handleRemoveAll.bind(this)
+    // now whereever we call handleRemoveAll, the context is correct
+  }
+  // methods are bound to the class instance
   handleRemoveAll() {
-    alert('removeAll!')
+    // alert('removeAll!')
+    // 1b) but here we've broken the binding
+    console.log(this.props.options)
+    // 1c) resulting in 'Can't find props of null' - so we're losing the 'this' binding
   }
   render() {
     const numberOfOptions = this.props.options.length
     return (
       <div>
+        {/* 1a) here the binding for 'this' works */}
         <button onClick={this.handleRemoveAll}>Remove All</button>
         {/* <p key={option}>{option}</p> */}
         {this.props.options.map((option) => (

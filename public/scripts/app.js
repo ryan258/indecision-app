@@ -113,16 +113,32 @@ var Action = function (_React$Component3) {
 var Options = function (_React$Component4) {
   _inherits(Options, _React$Component4);
 
-  function Options() {
+  // override this through the constructor function
+  // - props in the constructor function works the same way as it does in the render method - refers to the same thing, the constructor function just gets it passed in
+  function Options(props) {
     _classCallCheck(this, Options);
 
-    return _possibleConstructorReturn(this, (Options.__proto__ || Object.getPrototypeOf(Options)).apply(this, arguments));
+    // so we have access to this.props
+    // now we can add on behavior
+    // like bind handleRemoveAll
+    var _this4 = _possibleConstructorReturn(this, (Options.__proto__ || Object.getPrototypeOf(Options)).call(this, props));
+    // so we don't break anything we have to call super(props)
+
+
+    _this4.handleRemoveAll = _this4.handleRemoveAll.bind(_this4);
+    // now whereever we call handleRemoveAll, the context is correct
+    return _this4;
   }
+  // methods are bound to the class instance
+
 
   _createClass(Options, [{
     key: 'handleRemoveAll',
     value: function handleRemoveAll() {
-      alert('removeAll!');
+      // alert('removeAll!')
+      // 1b) but here we've broken the binding
+      console.log(this.props.options);
+      // 1c) resulting in 'Can't find props of null' - so we're losing the 'this' binding
     }
   }, {
     key: 'render',
