@@ -56,8 +56,6 @@ var Header = function (_React$Component2) {
   _createClass(Header, [{
     key: 'render',
     value: function render() {
-      // this = access to current instance of this component - and we get access to this's props through this.props
-      // console.log(this.props) // {title: "Indecision App"}
       return React.createElement(
         'div',
         null,
@@ -113,32 +111,19 @@ var Action = function (_React$Component3) {
 var Options = function (_React$Component4) {
   _inherits(Options, _React$Component4);
 
-  // override this through the constructor function
-  // - props in the constructor function works the same way as it does in the render method - refers to the same thing, the constructor function just gets it passed in
   function Options(props) {
     _classCallCheck(this, Options);
 
-    // so we have access to this.props
-    // now we can add on behavior
-    // like bind handleRemoveAll
     var _this4 = _possibleConstructorReturn(this, (Options.__proto__ || Object.getPrototypeOf(Options)).call(this, props));
-    // so we don't break anything we have to call super(props)
-
 
     _this4.handleRemoveAll = _this4.handleRemoveAll.bind(_this4);
-    // now whereever we call handleRemoveAll, the context is correct
     return _this4;
   }
-  // methods are bound to the class instance
-
 
   _createClass(Options, [{
     key: 'handleRemoveAll',
     value: function handleRemoveAll() {
-      // alert('removeAll!')
-      // 1b) but here we've broken the binding
       console.log(this.props.options);
-      // 1c) resulting in 'Can't find props of null' - so we're losing the 'this' binding
     }
   }, {
     key: 'render',
@@ -226,8 +211,5 @@ var AddOption = function (_React$Component6) {
 
   return AddOption;
 }(React.Component);
-
-// to render to the screen we need to use ReactDOM
-
 
 ReactDOM.render(React.createElement(IndecisionApp, null), document.getElementById('app'));
