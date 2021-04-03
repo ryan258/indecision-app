@@ -8,52 +8,68 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// a react component can just be a new class
+// babel src/playground/counter-example-w-state.js --out-file=public/scripts/app.js --presets=env,react --watch
 
-// Component is a class itself that gives us the features of React
-// react components require that a special method -> render
-// - and this returns all the JSX
+//!!! Component state is essential for interactive applications.
+var Counter = function (_React$Component) {
+  _inherits(Counter, _React$Component);
 
-var IndecisionApp = function (_React$Component) {
-  _inherits(IndecisionApp, _React$Component);
+  function Counter(props) {
+    _classCallCheck(this, Counter);
 
-  function IndecisionApp() {
-    _classCallCheck(this, IndecisionApp);
+    var _this = _possibleConstructorReturn(this, (Counter.__proto__ || Object.getPrototypeOf(Counter)).call(this, props));
 
-    return _possibleConstructorReturn(this, (IndecisionApp.__proto__ || Object.getPrototypeOf(IndecisionApp)).apply(this, arguments));
+    _this.handleAddOne = _this.handleAddOne.bind(_this);
+    _this.handleMinusOne = _this.handleMinusOne.bind(_this);
+    _this.handleReset = _this.handleReset.bind(_this);
+    //! STEP 1: Come up with a default set of values
+    _this.state = {
+      count: 0
+    };
+    return _this;
   }
 
-  _createClass(IndecisionApp, [{
-    key: 'render',
-    value: function render() {
-      var title = 'Indecision App';
-      var subtitle = 'Put your life in the hands of a computer!';
-      var options = ['Orson', 'Manny', 'Ike'];
+  //! STEP 3: The state changes based on some event.
 
-      return React.createElement(
-        'div',
-        null,
-        React.createElement(Header, { title: title, subtitle: subtitle }),
-        React.createElement(Action, null),
-        React.createElement(Options, { options: options }),
-        React.createElement(AddOption, null)
-      );
+
+  _createClass(Counter, [{
+    key: 'handleAddOne',
+    value: function handleAddOne() {
+      this.setState(function (prevState) {
+        // define updates you want to make
+        return {
+          count: prevState.count + 1
+        };
+      });
     }
-  }]);
-
-  return IndecisionApp;
-}(React.Component);
-
-var Header = function (_React$Component2) {
-  _inherits(Header, _React$Component2);
-
-  function Header() {
-    _classCallCheck(this, Header);
-
-    return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).apply(this, arguments));
-  }
-
-  _createClass(Header, [{
+  }, {
+    key: 'handleMinusOne',
+    value: function handleMinusOne() {
+      this.setState(function (prevState) {
+        return {
+          count: prevState.count - 1
+        };
+      });
+    }
+  }, {
+    key: 'handleReset',
+    value: function handleReset() {
+      // here you just don't need previous state
+      this.setState(function () {
+        return { count: 0 };
+      });
+      // obsolete syntax - the problem is when you're trying to update the state based on the current state values
+      /*
+      this.setState({
+        count: 100
+      })
+      this.setState({
+        count: this.state.count + 1
+      })
+      // the calls to setState are aSynchronous, they aren't guaranteed to happen/complete in order, so the 2nd set state won't catch the completion of the first setState
+      */
+    }
+  }, {
     key: 'render',
     value: function render() {
       return React.createElement(
@@ -62,154 +78,54 @@ var Header = function (_React$Component2) {
         React.createElement(
           'h1',
           null,
-          this.props.title
+          'Count: ',
+          this.state.count
         ),
         React.createElement(
-          'h2',
-          null,
-          this.props.subtitle
-        )
-      );
-    }
-  }]);
-
-  return Header;
-}(React.Component);
-
-var Action = function (_React$Component3) {
-  _inherits(Action, _React$Component3);
-
-  function Action() {
-    _classCallCheck(this, Action);
-
-    return _possibleConstructorReturn(this, (Action.__proto__ || Object.getPrototypeOf(Action)).apply(this, arguments));
-  }
-
-  _createClass(Action, [{
-    key: 'handlePick',
-    value: function handlePick() {
-      alert('handlePick!');
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'div',
-        null,
-        React.createElement(
           'button',
-          { onClick: this.handlePick },
-          'What should I do?'
-        )
-      );
-    }
-  }]);
-
-  return Action;
-}(React.Component);
-
-var Options = function (_React$Component4) {
-  _inherits(Options, _React$Component4);
-
-  function Options(props) {
-    _classCallCheck(this, Options);
-
-    var _this4 = _possibleConstructorReturn(this, (Options.__proto__ || Object.getPrototypeOf(Options)).call(this, props));
-
-    _this4.handleRemoveAll = _this4.handleRemoveAll.bind(_this4);
-    return _this4;
-  }
-
-  _createClass(Options, [{
-    key: 'handleRemoveAll',
-    value: function handleRemoveAll() {
-      console.log(this.props.options);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var numberOfOptions = this.props.options.length;
-      return React.createElement(
-        'div',
-        null,
-        React.createElement(
-          'button',
-          { onClick: this.handleRemoveAll },
-          'Remove All'
+          { onClick: this.handleAddOne },
+          '+1'
         ),
-        this.props.options.map(function (option) {
-          return React.createElement(Option, { key: option, optionText: option });
-        })
-      );
-    }
-  }]);
-
-  return Options;
-}(React.Component);
-
-var Option = function (_React$Component5) {
-  _inherits(Option, _React$Component5);
-
-  function Option() {
-    _classCallCheck(this, Option);
-
-    return _possibleConstructorReturn(this, (Option.__proto__ || Object.getPrototypeOf(Option)).apply(this, arguments));
-  }
-
-  _createClass(Option, [{
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'div',
-        null,
-        'Option: ',
-        this.props.optionText
-      );
-    }
-  }]);
-
-  return Option;
-}(React.Component);
-
-var AddOption = function (_React$Component6) {
-  _inherits(AddOption, _React$Component6);
-
-  function AddOption() {
-    _classCallCheck(this, AddOption);
-
-    return _possibleConstructorReturn(this, (AddOption.__proto__ || Object.getPrototypeOf(AddOption)).apply(this, arguments));
-  }
-
-  _createClass(AddOption, [{
-    key: 'handleAddOption',
-    value: function handleAddOption(e) {
-      e.preventDefault();
-
-      var option = e.target.elements.newOption.value.trim();
-
-      if (option) {
-        // app.options.push(option)
-        alert(option);
-        e.target.elements.newOption.value = '';
-      }
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'form',
-        { onSubmit: this.handleAddOption },
-        React.createElement('input', { type: 'text', name: 'newOption' }),
         React.createElement(
           'button',
-          null,
-          'Add Option'
+          { onClick: this.handleMinusOne },
+          '-1'
+        ),
+        React.createElement(
+          'button',
+          { onClick: this.handleReset },
+          'reset'
         )
       );
     }
   }]);
 
-  return AddOption;
+  return Counter;
 }(React.Component);
 
-ReactDOM.render(React.createElement(IndecisionApp, null), document.getElementById('app'));
+ReactDOM.render(React.createElement(Counter, null), document.getElementById('app'));
+//! STEP 1: Come up with a default set of values (default state object)
+// when our component runs for the very first time, it will use these default values - it's just an object with a bunch of key/value pairs.
+
+// const theState = {
+//   count: 0
+// }
+
+//! STEP 2: The component is rendered with default state values
+// note: We never call render manually, it happens behind the scenes
+
+// so the initial render happens and now nothing will happen until the user interacts
+
+//! STEP 3: The state changes based on some event. IE. They do something that changes the state that runs one of our methods
+//- of course, YOU DO NOT CHANGE STATE DIRECTLY!
+//!-USE this.setState(prevState => {return {new:object}}) - the is the prefererred way!
+// - allows us to manipulate the object
+// - and then allow React to handle things its way
+
+// FAQ
+// - you do not have to provide all the pieces of state when you're updating state with setState, just the pieces you're changing
+// -
+
+//! STEP 4: The application RERENDERS itself, bringing the UI back upto date with the state.
+
+//! STEP 5: ^^ back to step 3 ^^

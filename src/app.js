@@ -4,6 +4,12 @@
 // react components require that a special method -> render
 // - and this returns all the JSX
 
+// component STATE - allows our components to manage some data
+// - when data in the component changes, that component will automatically rerender to reflect those changes
+// - we don't want to keep running render() commands ourselves
+// -- we can manipulate the data
+// -- the component can worry about rerendering itself
+
 class IndecisionApp extends React.Component {
   render() {
     const title = 'Indecision App'
