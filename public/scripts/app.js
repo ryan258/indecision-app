@@ -31,10 +31,12 @@ var IndecisionApp = function (_React$Component) {
 
     _this.handleDeleteOptions = _this.handleDeleteOptions.bind(_this);
     _this.handlePick = _this.handlePick.bind(_this);
+    //! STEP 1.5: Bind it
+    _this.handleAddOption = _this.handleAddOption.bind(_this);
     _this.state = {
       title: 'Indecision App',
       subtitle: 'Put your life in the hands of a computer!',
-      options: ['Orson', 'Manny', 'Ike']
+      options: []
       // options: ['Orson', 'Manny', 'Ike']
     };
     return _this;
@@ -56,16 +58,41 @@ var IndecisionApp = function (_React$Component) {
       var option = this.state.options[randomNum];
       alert(option);
     }
+
+    //! STEP 1: Create a method to pass down with an argument
+
+  }, {
+    key: 'handleAddOption',
+    value: function handleAddOption(option) {
+      //! STEP 6: Add conditional logic validation checks
+      if (!option) {
+        return 'Enter valid value to add item';
+        // and this gets returned down to the AddOption component
+      } else if (this.state.options.indexOf(option) > -1) {
+        return 'Item already exists';
+      }
+      // console.log(option)
+      //! STEP 5: Do something with the data that was passed up from the child component
+      this.setState(function (prevState) {
+        //! don't do this as it will mutate the array
+        //! prevState.options.push(option)
+        // we want to compute a new one w/ array.concat
+        return {
+          options: prevState.options.concat(option)
+        };
+      });
+    }
   }, {
     key: 'render',
     value: function render() {
+      //! STEP 2: Pass it down
       return React.createElement(
         'div',
         null,
         React.createElement(Header, { title: this.state.title, subtitle: this.state.subtitle }),
         React.createElement(Action, { hasOptions: this.state.options.length > 0, handlePick: this.handlePick }),
         React.createElement(Options, { options: this.state.options, handleDeleteOptions: this.handleDeleteOptions }),
-        React.createElement(AddOption, null)
+        React.createElement(AddOption, { handleAddOption: this.handleAddOption })
       );
     }
   }]);
@@ -190,11 +217,21 @@ var Option = function (_React$Component5) {
 var AddOption = function (_React$Component6) {
   _inherits(AddOption, _React$Component6);
 
-  function AddOption() {
+  //! STEP 4: constructor function to handle the right methods in the render
+  function AddOption(props) {
     _classCallCheck(this, AddOption);
 
-    return _possibleConstructorReturn(this, (AddOption.__proto__ || Object.getPrototypeOf(AddOption)).apply(this, arguments));
+    var _this6 = _possibleConstructorReturn(this, (AddOption.__proto__ || Object.getPrototypeOf(AddOption)).call(this, props));
+
+    _this6.handleAddOption = _this6.handleAddOption.bind(_this6);
+    //! STEP 7: Add state to this component
+    _this6.state = {
+      error: undefined
+    };
+    return _this6;
   }
+  // this handleAddOption that is built into the function that is just incharge of doing things when the form gets submitted
+
 
   _createClass(AddOption, [{
     key: 'handleAddOption',
@@ -203,23 +240,46 @@ var AddOption = function (_React$Component6) {
 
       var option = e.target.elements.newOption.value.trim();
 
-      if (option) {
+      // validation handled up above
+      /*if (option) {
         // app.options.push(option)
-        alert(option);
-        e.target.elements.newOption.value = '';
-      }
+        //! STEP 3: Call the method being passed down by props and passing in an argument/data that will be passed in the parent component
+        // this handleAddOption will get things applied to state in the parent
+        this.props.handleAddOption(option)
+        e.target.elements.newOption.value = ''
+      }*/
+      // this.props.handleAddOption(option)
+
+      var error = this.props.handleAddOption(option);
+      //! ENTER THE LAND OF COMPONENT STATE !//
+      //! STEP 8: When submission has an error we want to update error state
+      this.setState(function () {
+        return {
+          error: error
+        };
+      });
     }
   }, {
     key: 'render',
     value: function render() {
+      //! STEP 9: RENDER ERROR MESSAGE IF THERE IS ONE - if there is no error the method will return back undefined and no error message will appear
       return React.createElement(
-        'form',
-        { onSubmit: this.handleAddOption },
-        React.createElement('input', { type: 'text', name: 'newOption' }),
-        React.createElement(
-          'button',
+        'div',
+        null,
+        this.state.error && React.createElement(
+          'p',
           null,
-          'Add Option'
+          this.state.error
+        ),
+        React.createElement(
+          'form',
+          { onSubmit: this.handleAddOption },
+          React.createElement('input', { type: 'text', name: 'newOption' }),
+          React.createElement(
+            'button',
+            null,
+            'Add Option'
+          )
         )
       );
     }
