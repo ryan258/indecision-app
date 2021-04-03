@@ -9,12 +9,15 @@
 // - we don't want to keep running render() commands ourselves
 // -- we can manipulate the data
 // -- the component can worry about rerendering itself
+// new props will cause children to rerender
 
 class IndecisionApp extends React.Component {
   constructor(props) {
     super(props)
     //! STEP 1.5: Bind the method we're passing down from here through props so it sets the proper context.
     this.handleDeleteOptions = this.handleDeleteOptions.bind(this)
+    //! STEP 1.5: Bind the method we're passing down from here through props so it sets the proper context.
+    this.handlePick = this.handlePick.bind(this)
     this.state = {
       title: 'Indecision App',
       subtitle: 'Put your life in the hands of a computer!',
@@ -33,6 +36,13 @@ class IndecisionApp extends React.Component {
     })
   }
 
+  //! STEP 1: Create the method we want to pass down to child component that will affect the parent state
+  handlePick() {
+    const randomNum = Math.floor(Math.random() * this.state.options.length)
+    const option = this.state.options[randomNum]
+    alert(option)
+  }
+
   render() {
     // const title = 'Indecision App'
     // const subtitle = 'Put your life in the hands of a computer!'
@@ -41,7 +51,11 @@ class IndecisionApp extends React.Component {
     return (
       <div>
         <Header title={this.state.title} subtitle={this.state.subtitle} />
-        <Action hasOptions={this.state.options.length > 0} />
+        <Action
+          hasOptions={this.state.options.length > 0}
+          //! STEP 2: Create a new prop and set it to the method we want to pass down
+          handlePick={this.handlePick}
+        />
         <Options
           options={this.state.options}
           //! STEP 2: Create a new prop and set it to the method we want to pass down
@@ -65,13 +79,11 @@ class Header extends React.Component {
 }
 
 class Action extends React.Component {
-  handlePick() {
-    alert('handlePick!')
-  }
   render() {
+    //! STEP 3: Use the method we're passing down through props
     return (
       <div>
-        <button onClick={this.handlePick} disabled={!this.props.hasOptions}>
+        <button onClick={this.props.handlePick} disabled={!this.props.hasOptions}>
           What should I do?
         </button>
       </div>

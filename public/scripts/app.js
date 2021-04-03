@@ -19,6 +19,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // - we don't want to keep running render() commands ourselves
 // -- we can manipulate the data
 // -- the component can worry about rerendering itself
+// new props will cause children to rerender
 
 var IndecisionApp = function (_React$Component) {
   _inherits(IndecisionApp, _React$Component);
@@ -30,6 +31,8 @@ var IndecisionApp = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (IndecisionApp.__proto__ || Object.getPrototypeOf(IndecisionApp)).call(this, props));
 
     _this.handleDeleteOptions = _this.handleDeleteOptions.bind(_this);
+    //! STEP 1.5: Bind the method we're passing down from here through props so it sets the proper context.
+    _this.handlePick = _this.handlePick.bind(_this);
     _this.state = {
       title: 'Indecision App',
       subtitle: 'Put your life in the hands of a computer!',
@@ -52,6 +55,16 @@ var IndecisionApp = function (_React$Component) {
         };
       });
     }
+
+    //! STEP 1: Create the method we want to pass down to child component that will affect the parent state
+
+  }, {
+    key: 'handlePick',
+    value: function handlePick() {
+      var randomNum = Math.floor(Math.random() * this.state.options.length);
+      var option = this.state.options[randomNum];
+      alert(option);
+    }
   }, {
     key: 'render',
     value: function render() {
@@ -63,7 +76,11 @@ var IndecisionApp = function (_React$Component) {
         'div',
         null,
         React.createElement(Header, { title: this.state.title, subtitle: this.state.subtitle }),
-        React.createElement(Action, { hasOptions: this.state.options.length > 0 }),
+        React.createElement(Action, {
+          hasOptions: this.state.options.length > 0
+          //! STEP 2: Create a new prop and set it to the method we want to pass down
+          , handlePick: this.handlePick
+        }),
         React.createElement(Options, {
           options: this.state.options
           //! STEP 2: Create a new prop and set it to the method we want to pass down
@@ -119,19 +136,15 @@ var Action = function (_React$Component3) {
   }
 
   _createClass(Action, [{
-    key: 'handlePick',
-    value: function handlePick() {
-      alert('handlePick!');
-    }
-  }, {
     key: 'render',
     value: function render() {
+      //! STEP 3: Use the method we're passing down through props
       return React.createElement(
         'div',
         null,
         React.createElement(
           'button',
-          { onClick: this.handlePick, disabled: !this.props.hasOptions },
+          { onClick: this.props.handlePick, disabled: !this.props.hasOptions },
           'What should I do?'
         )
       );
