@@ -14,9 +14,7 @@
 class IndecisionApp extends React.Component {
   constructor(props) {
     super(props)
-    //! STEP 1.5: Bind the method we're passing down from here through props so it sets the proper context.
     this.handleDeleteOptions = this.handleDeleteOptions.bind(this)
-    //! STEP 1.5: Bind the method we're passing down from here through props so it sets the proper context.
     this.handlePick = this.handlePick.bind(this)
     this.state = {
       title: 'Indecision App',
@@ -25,9 +23,7 @@ class IndecisionApp extends React.Component {
       // options: ['Orson', 'Manny', 'Ike']
     }
   }
-  // functions we'll pass down to child components so they can make changes up stream
-  // - we can pass down functions to children from parents to affect things upstream
-  //! STEP 1: Create the method we want to pass down to child component that will affect the parent state
+
   handleDeleteOptions() {
     this.setState(() => {
       return {
@@ -36,7 +32,6 @@ class IndecisionApp extends React.Component {
     })
   }
 
-  //! STEP 1: Create the method we want to pass down to child component that will affect the parent state
   handlePick() {
     const randomNum = Math.floor(Math.random() * this.state.options.length)
     const option = this.state.options[randomNum]
@@ -44,23 +39,11 @@ class IndecisionApp extends React.Component {
   }
 
   render() {
-    // const title = 'Indecision App'
-    // const subtitle = 'Put your life in the hands of a computer!'
-    // const options = ['Orson', 'Manny', 'Ike']
-
     return (
       <div>
         <Header title={this.state.title} subtitle={this.state.subtitle} />
-        <Action
-          hasOptions={this.state.options.length > 0}
-          //! STEP 2: Create a new prop and set it to the method we want to pass down
-          handlePick={this.handlePick}
-        />
-        <Options
-          options={this.state.options}
-          //! STEP 2: Create a new prop and set it to the method we want to pass down
-          handleDeleteOptions={this.handleDeleteOptions}
-        />
+        <Action hasOptions={this.state.options.length > 0} handlePick={this.handlePick} />
+        <Options options={this.state.options} handleDeleteOptions={this.handleDeleteOptions} />
         <AddOption />
       </div>
     )
@@ -80,7 +63,6 @@ class Header extends React.Component {
 
 class Action extends React.Component {
   render() {
-    //! STEP 3: Use the method we're passing down through props
     return (
       <div>
         <button onClick={this.props.handlePick} disabled={!this.props.hasOptions}>
@@ -94,7 +76,6 @@ class Action extends React.Component {
 class Options extends React.Component {
   render() {
     const numberOfOptions = this.props.options.length
-    //! STEP 3: Use the method we're passing down through props
     return (
       <div>
         <button onClick={this.props.handleDeleteOptions}>Remove All</button>

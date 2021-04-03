@@ -27,11 +27,9 @@ var IndecisionApp = function (_React$Component) {
   function IndecisionApp(props) {
     _classCallCheck(this, IndecisionApp);
 
-    //! STEP 1.5: Bind the method we're passing down from here through props so it sets the proper context.
     var _this = _possibleConstructorReturn(this, (IndecisionApp.__proto__ || Object.getPrototypeOf(IndecisionApp)).call(this, props));
 
     _this.handleDeleteOptions = _this.handleDeleteOptions.bind(_this);
-    //! STEP 1.5: Bind the method we're passing down from here through props so it sets the proper context.
     _this.handlePick = _this.handlePick.bind(_this);
     _this.state = {
       title: 'Indecision App',
@@ -41,10 +39,6 @@ var IndecisionApp = function (_React$Component) {
     };
     return _this;
   }
-  // functions we'll pass down to child components so they can make changes up stream
-  // - we can pass down functions to children from parents to affect things upstream
-  //! STEP 1: Create the method we want to pass down to child component that will affect the parent state
-
 
   _createClass(IndecisionApp, [{
     key: 'handleDeleteOptions',
@@ -55,9 +49,6 @@ var IndecisionApp = function (_React$Component) {
         };
       });
     }
-
-    //! STEP 1: Create the method we want to pass down to child component that will affect the parent state
-
   }, {
     key: 'handlePick',
     value: function handlePick() {
@@ -68,24 +59,12 @@ var IndecisionApp = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      // const title = 'Indecision App'
-      // const subtitle = 'Put your life in the hands of a computer!'
-      // const options = ['Orson', 'Manny', 'Ike']
-
       return React.createElement(
         'div',
         null,
         React.createElement(Header, { title: this.state.title, subtitle: this.state.subtitle }),
-        React.createElement(Action, {
-          hasOptions: this.state.options.length > 0
-          //! STEP 2: Create a new prop and set it to the method we want to pass down
-          , handlePick: this.handlePick
-        }),
-        React.createElement(Options, {
-          options: this.state.options
-          //! STEP 2: Create a new prop and set it to the method we want to pass down
-          , handleDeleteOptions: this.handleDeleteOptions
-        }),
+        React.createElement(Action, { hasOptions: this.state.options.length > 0, handlePick: this.handlePick }),
+        React.createElement(Options, { options: this.state.options, handleDeleteOptions: this.handleDeleteOptions }),
         React.createElement(AddOption, null)
       );
     }
@@ -138,7 +117,6 @@ var Action = function (_React$Component3) {
   _createClass(Action, [{
     key: 'render',
     value: function render() {
-      //! STEP 3: Use the method we're passing down through props
       return React.createElement(
         'div',
         null,
@@ -167,7 +145,6 @@ var Options = function (_React$Component4) {
     key: 'render',
     value: function render() {
       var numberOfOptions = this.props.options.length;
-      //! STEP 3: Use the method we're passing down through props
       return React.createElement(
         'div',
         null,
