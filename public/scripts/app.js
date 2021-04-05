@@ -21,6 +21,7 @@ var IndecisionApp = function (_React$Component) {
     _this.handleDeleteOptions = _this.handleDeleteOptions.bind(_this);
     _this.handlePick = _this.handlePick.bind(_this);
     _this.handleAddOption = _this.handleAddOption.bind(_this);
+    _this.handleDeleteOption = _this.handleDeleteOption.bind(_this);
     _this.state = {
       // title: 'Indecision App',
       subtitle: 'Put your life in the hands of a computer!',
@@ -33,9 +34,23 @@ var IndecisionApp = function (_React$Component) {
   _createClass(IndecisionApp, [{
     key: 'handleDeleteOptions',
     value: function handleDeleteOptions() {
+      // if we want to implicitly return an object shorthand we have to wrap in ()s
       this.setState(function () {
+        return { options: [] };
+      });
+    }
+    // handle delete option which will take an option (which you want to delete) and use set state to actually remove it
+
+  }, {
+    key: 'handleDeleteOption',
+    value: function handleDeleteOption(optionToRemove) {
+      // we don't want options to be an event object
+      // console.log('hdo', option)
+      this.setState(function (prevState) {
         return {
-          options: []
+          options: prevState.options.filter(function (option) {
+            return optionToRemove !== option;
+          })
         };
       });
     }
@@ -56,9 +71,7 @@ var IndecisionApp = function (_React$Component) {
       }
 
       this.setState(function (prevState) {
-        return {
-          options: prevState.options.concat(option)
-        };
+        return { options: prevState.options.concat(option) };
       });
     }
   }, {
@@ -69,7 +82,7 @@ var IndecisionApp = function (_React$Component) {
         null,
         React.createElement(Header, { subtitle: this.state.subtitle }),
         React.createElement(Action, { hasOptions: this.state.options.length > 0, handlePick: this.handlePick }),
-        React.createElement(Options, { options: this.state.options, handleDeleteOptions: this.handleDeleteOptions }),
+        React.createElement(Options, { options: this.state.options, handleDeleteOptions: this.handleDeleteOptions, handleDeleteOption: this.handleDeleteOption }),
         React.createElement(AddOption, { handleAddOption: this.handleAddOption })
       );
     }
@@ -126,16 +139,26 @@ var Options = function Options(props) {
       'Remove All'
     ),
     props.options.map(function (option) {
-      return React.createElement(Option, { key: option, optionText: option });
+      return React.createElement(Option, { key: option, optionText: option, handleDeleteOption: props.handleDeleteOption });
     })
   );
 };
 
 var Option = function Option(props) {
+  // now we can get our delete option here in our button
   return React.createElement(
     'div',
     null,
-    props.optionText
+    props.optionText,
+    React.createElement(
+      'button',
+      {
+        onClick: function onClick(e) {
+          props.handleDeleteOption(props.optionText);
+        }
+      },
+      'remove'
+    )
   );
 };
 
@@ -162,10 +185,9 @@ var AddOption = function (_React$Component2) {
       var option = e.target.elements.newOption.value.trim();
 
       var error = this.props.handleAddOption(option);
+      // this.setState(() => ({ error: error }))
       this.setState(function () {
-        return {
-          error: error
-        };
+        return { error: error };
       });
     }
   }, {
