@@ -21,10 +21,11 @@ class IndecisionApp extends React.Component {
     //! STEP 1.5: Bind it
     this.handleAddOption = this.handleAddOption.bind(this)
     this.state = {
-      title: 'Indecision App',
-      subtitle: 'Put your life in the hands of a computer!',
-      options: []
+      // title: 'Indecision App',
+      // subtitle: 'Put your life in the hands of a computer!',
+      // options: []
       // options: ['Orson', 'Manny', 'Ike']
+      options: props.options
     }
   }
 
@@ -80,6 +81,10 @@ class IndecisionApp extends React.Component {
   }
 }
 
+IndecisionApp.defaultProps = {
+  options: []
+}
+
 const Header = (props) => {
   return (
     <div>
@@ -117,7 +122,7 @@ const Options = (props) => {
 }
 
 const Option = (props) => {
-  return <div>Option: {props.optionText}</div>
+  return <div>{props.optionText}</div>
 }
 
 class AddOption extends React.Component {
@@ -169,6 +174,8 @@ class AddOption extends React.Component {
   }
 }
 
+// passing in default values, yet allowing user to customize the data
+// ReactDOM.render(<IndecisionApp options={['Big Whiskey', 'Twin Peaks']} />, document.getElementById('app'))
 ReactDOM.render(<IndecisionApp />, document.getElementById('app'))
 
 // Stateless components

@@ -9,7 +9,8 @@ class Counter extends React.Component {
     this.handleReset = this.handleReset.bind(this)
     //! STEP 1: Come up with a default set of values
     this.state = {
-      count: 0
+      // count: 0
+      count: props.count
     }
   }
 
@@ -59,7 +60,12 @@ class Counter extends React.Component {
   }
 }
 
-ReactDOM.render(<Counter />, document.getElementById('app'))
+Counter.defaultProps = {
+  count: 42
+}
+
+ReactDOM.render(<Counter count={-10} />, document.getElementById('app'))
+
 //! STEP 1: Come up with a default set of values (default state object)
 // when our component runs for the very first time, it will use these default values - it's just an object with a bunch of key/value pairs.
 
