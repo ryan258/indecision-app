@@ -8,21 +8,16 @@ class IndecisionApp extends React.Component {
     this.handleAddOption = this.handleAddOption.bind(this)
     this.handleDeleteOption = this.handleDeleteOption.bind(this)
     this.state = {
-      // title: 'Indecision App',
       subtitle: 'Put your life in the hands of a computer!',
-      // options: []
       options: props.options
     }
   }
 
   handleDeleteOptions() {
-    // if we want to implicitly return an object shorthand we have to wrap in ()s
     this.setState(() => ({ options: [] }))
   }
-  // handle delete option which will take an option (which you want to delete) and use set state to actually remove it
+
   handleDeleteOption(optionToRemove) {
-    // we don't want options to be an event object
-    // console.log('hdo', option)
     this.setState((prevState) => ({
       options: prevState.options.filter((option) => optionToRemove !== option)
     }))
@@ -49,7 +44,6 @@ class IndecisionApp extends React.Component {
       <div>
         <Header subtitle={this.state.subtitle} />
         <Action hasOptions={this.state.options.length > 0} handlePick={this.handlePick} />
-        {/* we'll pass the option into options to pass to option */}
         <Options options={this.state.options} handleDeleteOptions={this.handleDeleteOptions} handleDeleteOption={this.handleDeleteOption} />
         <AddOption handleAddOption={this.handleAddOption} />
       </div>
@@ -89,7 +83,6 @@ const Options = (props) => {
   return (
     <div>
       <button onClick={props.handleDeleteOptions}>Remove All</button>
-      {/* now we'll add that option here as a prop */}
       {props.options.map((option) => (
         <Option key={option} optionText={option} handleDeleteOption={props.handleDeleteOption} />
       ))}
@@ -98,11 +91,9 @@ const Options = (props) => {
 }
 
 const Option = (props) => {
-  // now we can get our delete option here in our button
   return (
     <div>
       {props.optionText}
-      {/* <button onClick={props.handleDeleteOption}>remove</button> */}
       <button
         onClick={(e) => {
           props.handleDeleteOption(props.optionText)
@@ -129,7 +120,6 @@ class AddOption extends React.Component {
     let option = e.target.elements.newOption.value.trim()
 
     const error = this.props.handleAddOption(option)
-    // this.setState(() => ({ error: error }))
     this.setState(() => ({ error }))
   }
   render() {
