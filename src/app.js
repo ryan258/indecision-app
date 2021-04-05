@@ -67,7 +67,10 @@ class IndecisionApp extends React.Component {
     //! STEP 2: Pass it down
     return (
       <div>
-        <Header title={this.state.title} subtitle={this.state.subtitle} />
+        {/* <Header title={this.state.title} subtitle={this.state.subtitle} /> */}
+        {/* remove title property to use the default */}
+        <Header subtitle={this.state.subtitle} />
+        {/* <Header /> */}
         <Action hasOptions={this.state.options.length > 0} handlePick={this.handlePick} />
         <Options options={this.state.options} handleDeleteOptions={this.handleDeleteOptions} />
         {/* vv pass it down vv */}
@@ -81,9 +84,14 @@ const Header = (props) => {
   return (
     <div>
       <h1>{props.title}</h1>
-      <h2>{props.subtitle}</h2>
+      {props.subtitle && <h2>{props.subtitle}</h2>}
     </div>
   )
+}
+
+// we can add on default prop values on class or functional components by taking on a property after we define the component
+Header.defaultProps = {
+  title: 'Indecision'
 }
 
 const Action = (props) => {

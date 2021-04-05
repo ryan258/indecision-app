@@ -91,7 +91,7 @@ var IndecisionApp = function (_React$Component) {
       return React.createElement(
         'div',
         null,
-        React.createElement(Header, { title: this.state.title, subtitle: this.state.subtitle }),
+        React.createElement(Header, { subtitle: this.state.subtitle }),
         React.createElement(Action, { hasOptions: this.state.options.length > 0, handlePick: this.handlePick }),
         React.createElement(Options, { options: this.state.options, handleDeleteOptions: this.handleDeleteOptions }),
         React.createElement(AddOption, { handleAddOption: this.handleAddOption })
@@ -111,12 +111,17 @@ var Header = function Header(props) {
       null,
       props.title
     ),
-    React.createElement(
+    props.subtitle && React.createElement(
       'h2',
       null,
       props.subtitle
     )
   );
+};
+
+// we can add on default prop values on class or functional components by taking on a property after we define the component
+Header.defaultProps = {
+  title: 'Indecision'
 };
 
 var Action = function Action(props) {
