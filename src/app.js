@@ -1,3 +1,5 @@
+// babel src/app.js --out-file=public/scripts/app.js --presets=env,react --watch
+
 // a react component can just be a new class
 
 // Component is a class itself that gives us the features of React
@@ -75,47 +77,39 @@ class IndecisionApp extends React.Component {
   }
 }
 
-class Header extends React.Component {
-  render() {
-    return (
-      <div>
-        <h1>{this.props.title}</h1>
-        <h2>{this.props.subtitle}</h2>
-      </div>
-    )
-  }
+const Header = (props) => {
+  return (
+    <div>
+      <h1>{props.title}</h1>
+      <h2>{props.subtitle}</h2>
+    </div>
+  )
 }
 
-class Action extends React.Component {
-  render() {
-    return (
-      <div>
-        <button onClick={this.props.handlePick} disabled={!this.props.hasOptions}>
-          What should I do?
-        </button>
-      </div>
-    )
-  }
+const Action = (props) => {
+  return (
+    <div>
+      <button onClick={props.handlePick} disabled={!props.hasOptions}>
+        What should I do?
+      </button>
+    </div>
+  )
 }
 
-class Options extends React.Component {
-  render() {
-    const numberOfOptions = this.props.options.length
-    return (
-      <div>
-        <button onClick={this.props.handleDeleteOptions}>Remove All</button>
-        {this.props.options.map((option) => (
-          <Option key={option} optionText={option} />
-        ))}
-      </div>
-    )
-  }
+const Options = (props) => {
+  const numberOfOptions = props.options.length
+  return (
+    <div>
+      <button onClick={props.handleDeleteOptions}>Remove All</button>
+      {props.options.map((option) => (
+        <Option key={option} optionText={option} />
+      ))}
+    </div>
+  )
 }
 
-class Option extends React.Component {
-  render() {
-    return <div>Option: {this.props.optionText}</div>
-  }
+const Option = (props) => {
+  return <div>Option: {props.optionText}</div>
 }
 
 class AddOption extends React.Component {
@@ -168,3 +162,20 @@ class AddOption extends React.Component {
 }
 
 ReactDOM.render(<IndecisionApp />, document.getElementById('app'))
+
+// Stateless components
+// - don't have access to 'this'
+// -- but passing props will be like this.props in class based components
+// -- stateless components are faster than state/class based components
+// -- easier to test
+// --- (use them when you can)
+/* const User = (props) => {
+  return (
+    <div>
+      <p>Name: {props.name}</p>
+      <p>Age: {props.age}</p>
+    </div>
+  )
+}
+
+ReactDOM.render(<User name="Manny" age={10} />, document.getElementById('app')) */
