@@ -10,6 +10,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 // babel src/app.js --out-file=public/scripts/app.js --presets=env,react --watch
 
+// stateless components don't have life-cycle components
+// - which means they're really fast since they don't have to manage that
+// - they just render things
+
 var IndecisionApp = function (_React$Component) {
   _inherits(IndecisionApp, _React$Component);
 
@@ -29,7 +33,50 @@ var IndecisionApp = function (_React$Component) {
     return _this;
   }
 
+  // componentDidMount - we never explicitly call this - it gets called internally - runs when the component first mounts
+
+
   _createClass(IndecisionApp, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      // console.log('fetching data 👻')
+      try {
+        var json = localStorage.getItem('options');
+        var options = JSON.parse(json);
+        // now we can do something with it
+        // this.setState(() => ({ options: options }))
+        if (options) {
+          this.setState(function () {
+            return { options: options };
+          });
+        }
+      } catch (error) {
+        // do nothing at all! 🍺
+      }
+    }
+    // componentDidUpdate - fires after the props or state values change
+    // - really useful for figuring out when data has changed
+
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps, prevState) {
+      if (prevState.options.length !== this.state.options.length) {
+        var json = JSON.stringify(this.state.options);
+        // console.log('saving data 🥳')
+        localStorage.setItem('options', json);
+      }
+      // as well as arguments (prevProps, prevState)
+      // - good for figuring out if a specific part of a component updated
+      // here we have access to this.state and this.props
+    }
+    // componentWillUnmount - fires just before your component goes away to allow us to do something meaningful - usually barely used
+
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('componentWillUnmount 🔥');
+    }
+  }, {
     key: 'handleDeleteOptions',
     value: function handleDeleteOptions() {
       this.setState(function () {
@@ -131,6 +178,11 @@ var Options = function Options(props) {
       { onClick: props.handleDeleteOptions },
       'Remove All'
     ),
+    props.options.length === 0 && React.createElement(
+      'p',
+      null,
+      'Please add an option, or else...'
+    ),
     props.options.map(function (option) {
       return React.createElement(Option, { key: option, optionText: option, handleDeleteOption: props.handleDeleteOption });
     })
@@ -180,6 +232,10 @@ var AddOption = function (_React$Component2) {
       this.setState(function () {
         return { error: error };
       });
+
+      if (!error) {
+        e.target.elements.newOption.value = '';
+      }
     }
   }, {
     key: 'render',

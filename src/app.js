@@ -1,5 +1,9 @@
 // babel src/app.js --out-file=public/scripts/app.js --presets=env,react --watch
 
+// stateless components don't have life-cycle components
+// - which means they're really fast since they don't have to manage that
+// - they just render things
+
 class IndecisionApp extends React.Component {
   constructor(props) {
     super(props)
@@ -11,6 +15,38 @@ class IndecisionApp extends React.Component {
       subtitle: 'Put your life in the hands of a computer!',
       options: props.options
     }
+  }
+
+  // componentDidMount - we never explicitly call this - it gets called internally - runs when the component first mounts
+  componentDidMount() {
+    // console.log('fetching data 👻')
+    try {
+      const json = localStorage.getItem('options')
+      const options = JSON.parse(json)
+      // now we can do something with it
+      // this.setState(() => ({ options: options }))
+      if (options) {
+        this.setState(() => ({ options }))
+      }
+    } catch (error) {
+      // do nothing at all! 🍺
+    }
+  }
+  // componentDidUpdate - fires after the props or state values change
+  // - really useful for figuring out when data has changed
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.options.length !== this.state.options.length) {
+      const json = JSON.stringify(this.state.options)
+      // console.log('saving data 🥳')
+      localStorage.setItem('options', json)
+    }
+    // as well as arguments (prevProps, prevState)
+    // - good for figuring out if a specific part of a component updated
+    // here we have access to this.state and this.props
+  }
+  // componentWillUnmount - fires just before your component goes away to allow us to do something meaningful - usually barely used
+  componentWillUnmount() {
+    console.log('componentWillUnmount 🔥')
   }
 
   handleDeleteOptions() {
@@ -83,6 +119,7 @@ const Options = (props) => {
   return (
     <div>
       <button onClick={props.handleDeleteOptions}>Remove All</button>
+      {props.options.length === 0 && <p>Please add an option, or else...</p>}
       {props.options.map((option) => (
         <Option key={option} optionText={option} handleDeleteOption={props.handleDeleteOption} />
       ))}
@@ -121,6 +158,10 @@ class AddOption extends React.Component {
 
     const error = this.props.handleAddOption(option)
     this.setState(() => ({ error }))
+
+    if (!error) {
+      e.target.elements.newOption.value = ''
+    }
   }
   render() {
     return (
