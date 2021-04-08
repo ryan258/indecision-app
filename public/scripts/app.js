@@ -14,6 +14,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // - which means they're really fast since they don't have to manage that
 // - they just render things
 
+// >>> ?
+
 var IndecisionApp = function (_React$Component) {
   _inherits(IndecisionApp, _React$Component);
 
@@ -28,7 +30,8 @@ var IndecisionApp = function (_React$Component) {
     _this.handleDeleteOption = _this.handleDeleteOption.bind(_this);
     _this.state = {
       subtitle: 'Put your life in the hands of a computer!',
-      options: props.options
+      // options: props.options
+      options: []
     };
     return _this;
   }
@@ -131,9 +134,9 @@ var IndecisionApp = function (_React$Component) {
   return IndecisionApp;
 }(React.Component);
 
-IndecisionApp.defaultProps = {
-  options: []
-};
+// IndecisionApp.defaultProps = {
+//   options: []
+// }
 
 var Header = function Header(props) {
   return React.createElement(

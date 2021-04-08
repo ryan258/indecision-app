@@ -4,6 +4,8 @@
 // - which means they're really fast since they don't have to manage that
 // - they just render things
 
+// >>> ?
+
 class IndecisionApp extends React.Component {
   constructor(props) {
     super(props)
@@ -13,7 +15,8 @@ class IndecisionApp extends React.Component {
     this.handleDeleteOption = this.handleDeleteOption.bind(this)
     this.state = {
       subtitle: 'Put your life in the hands of a computer!',
-      options: props.options
+      // options: props.options
+      options: []
     }
   }
 
@@ -87,9 +90,9 @@ class IndecisionApp extends React.Component {
   }
 }
 
-IndecisionApp.defaultProps = {
-  options: []
-}
+// IndecisionApp.defaultProps = {
+//   options: []
+// }
 
 const Header = (props) => {
   return (
