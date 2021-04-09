@@ -1,10 +1,5 @@
 const path = require('path')
 
-// entry point -> output
-
-// console.log(__dirname)
-// console.log(path.join(__dirname, 'public'))
-
 module.exports = {
   entry: './src/app.js',
   output: {
@@ -20,5 +15,8 @@ module.exports = {
       }
     ]
   },
-  devtool: 'cheap-module-eval-source-map'
+  devtool: 'cheap-module-eval-source-map',
+  devServer: {
+    contentBase: path.join(__dirname, 'public')
+  }
 }
