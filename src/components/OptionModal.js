@@ -2,7 +2,6 @@ import React from 'react'
 import Modal from 'react-modal'
 
 const OptionModal = (props) => (
-  // !! - is a true boolean that takes a truthy/falsy value and makes it a legit boolean
   <Modal
     isOpen={!!props.selectedOption}
     // close on escape key or clicking bg
