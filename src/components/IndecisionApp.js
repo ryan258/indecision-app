@@ -5,11 +5,15 @@ import AddOption from './AddOption'
 import Header from './Header'
 import Options from './Options'
 
+import OptionModal from './OptionModal'
+
 export default class IndecisionApp extends React.Component {
   state = {
     subtitle: 'Put your life in the hands of a computer!',
     // options: props.options
-    options: []
+    options: [],
+    // define the state here, then pass it through the <OptionModal /> as a prop
+    selectedOption: undefined
   }
   //! old syntax
   // constructor(props) {
@@ -70,7 +74,17 @@ export default class IndecisionApp extends React.Component {
   handlePick = () => {
     const randomNum = Math.floor(Math.random() * this.state.options.length)
     const option = this.state.options[randomNum]
-    alert(option)
+    // alert(option)
+    // when thing is clicked it will set the state to a random option resulting in a truthy value
+    this.setState(() => ({
+      selectedOption: option
+    }))
+  }
+
+  handleClearSelectedOption = () => {
+    this.setState(() => ({
+      selectedOption: undefined
+    }))
   }
 
   handleAddOption = (option) => {
@@ -91,6 +105,8 @@ export default class IndecisionApp extends React.Component {
         <Action hasOptions={this.state.options.length > 0} handlePick={this.handlePick} />
         <Options options={this.state.options} handleDeleteOptions={this.handleDeleteOptions} handleDeleteOption={this.handleDeleteOption} />
         <AddOption handleAddOption={this.handleAddOption} />
+        {/* pass the piece of state down to the component */}
+        <OptionModal selectedOption={this.state.selectedOption} handleClearSelectedOption={this.handleClearSelectedOption} />
       </div>
     )
   }
